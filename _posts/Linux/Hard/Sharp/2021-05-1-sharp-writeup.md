@@ -35,8 +35,7 @@ Empiezo mi scan con Nmap
  
  A escanear :)
  
-
-```bash Nmap
+```bash
 Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times will be slower.
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-01 21:10 BST
 Nmap scan report for sharp.htb (10.10.10.219)
