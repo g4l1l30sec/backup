@@ -1,4 +1,4 @@
-# G4l1l `30
+# G4l1l30
 
 Another Writeup/InfoSec Blog ;)
 
