@@ -32,8 +32,7 @@ Empiezo mi enum con Nmap
 | `-vvv` | Proporciona una salida muy detallada para ver los resultados a medida que se encuentran. |
 | `-sC` | Es equivalente a `--script=default` y ejecuta una serie de scripts de enum contra el target |
 | `-sV` | Proporciona info de los servicios |
-
-Acostumbro a empezar por los puertos que me resultan mas familiar :^) 
+ 
 
 ```bash
 Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times will be slower.
@@ -64,8 +63,52 @@ Host script results:
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 603.90 seconds
 ```
+Acostumbro a empezar por los puertos que me resultan mas familiar :^)
+
 #### SMB Enum.
 
 Empezamos por SMB utilizando `smbmap -H sharp.htb` y obtenemos lo siguiente: 
 
 ![](/assets/img/Linux/Sharp/smb_01.png)
+
+Tenemos permiso de lectura en el directorio Kaban, podemos acceder al mismo utilizando el el parametro -R
+
+`smbmap -H sharp.htb -R`
+
+![](/assets/img/Linux/Sharp/smb_02.png)
+
+Muchos ficheros ¿no?, vamos a obtenerlos todo con `smbget` de la siguiente forma : `smbget -R smb://sharp.htb/kanban`
+
+![](/assets/img/Linux/Sharp/smb_03.png)
+
+###Kaban
+
+Utilizaremos `ack` para buscar strings que sean de nuestro interes (podemos hacer lo mismo con grep), el uso quedaria asi : `ack -i "password"`
+
+![](/assets/img/Linux/Sharp/kaban_01.png)
+
+Nice :), echemos un vistazo a `PortableKanban.pk3` mas detalladamente y encontraremos dos usuarios : Administrator y Lars.
+
+```text
+Administrator
+ID: e8e29158d70d44b1a1ba4949d52790a0
+Encrypted Password: "k+iUoOvQYG98PuhhRC7/rg=="
+
+Lars
+ID: 0628ae1de5234b81ae65c246dd2b4a21
+Encrypted Password: "Ua3LyPFM175GN8D3+tqwLA=="
+```
+Despues de estar estancado un rato, el manual del usuario "User Guide.pdf" es nuestro fichero ideal :)
+
+En la pagina 18 podemos destacar dos cosas importantes: 1. El password del administrador(por defecto) es blank y si olvidamos el password, solo movemos el programa (que por cierto, es portable :) ) a otro directorio.
+
+![](/assets/img/Linux/Sharp/kaban_02.png)
+
+Interesante, indagando en el documento en la pagina 20, nos damos cuenta que los password se ocultan por defecto en `Setup/Users tab`
+
+![](/assets/img/Linux/Sharp/kaban_03.png)
+
+Necesitamos una VM con Windows, pasamos los archivos de Kanban ya descargados.
+
+
+
