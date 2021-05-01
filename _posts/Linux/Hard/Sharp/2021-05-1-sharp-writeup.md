@@ -100,7 +100,7 @@ Encrypted Password: "Ua3LyPFM175GN8D3+tqwLA=="
 ```
 Despues de estar estancado un rato, el manual del usuario "User Guide.pdf" es nuestro fichero ideal :)
 
-En la pagina 18 podemos destacar dos cosas importantes: 1. El password del administrador(por defecto) es blank y si olvidamos el password, solo movemos el programa (que por cierto, es portable :) ) a otro directorio.
+En la pagina 18 podemos destacar dos cosas importantes: 1. El password del administrador(por defecto) es en blanco y si olvidamos el password, solo movemos el programa (que por cierto, es portable :) ) a otro directorio.
 
 ![](/assets/img/Linux/Sharp/kaban_02.png)
 
