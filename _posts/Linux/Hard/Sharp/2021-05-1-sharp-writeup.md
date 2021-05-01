@@ -21,3 +21,16 @@ Esta es una VM Hard de HackTheBox retirada en la 1ra semana de Mayo 2021.
 ## Enumeration
 
 ### Nmap scan
+
+Apuntamos la IP de la VM 10.10.10.219 hacia sharp.htb en nuestro /etc/hosts
+
+Empiezo mi enum con Nmap  
+
+| `Flag` | Uso |
+| :--- | :--- |
+| `-p-` | Para escanear todos los puertos.  |
+| `-vvv` | Proporciona una salida muy detallada para ver los resultados a medida que se encuentran. |
+| `-sC` | Es equivalente a `--script=default` y ejecuta una serie de scripts de enum contra el target |
+| `-sV` | Proporciona info de los servicios |
+
+
