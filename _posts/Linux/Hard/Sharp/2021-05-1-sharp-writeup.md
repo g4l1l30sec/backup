@@ -82,7 +82,7 @@ Muchos ficheros ¿no?, vamos a obtenerlos todo con `smbget` de la siguiente form
 
 ![](/assets/img/Linux/Sharp/smb_03.png)
 
-###Kaban
+### Kanban
 
 Utilizaremos `ack` para buscar strings que sean de nuestro interes (podemos hacer lo mismo con grep), el uso quedaria asi : `ack -i "password"`
 
