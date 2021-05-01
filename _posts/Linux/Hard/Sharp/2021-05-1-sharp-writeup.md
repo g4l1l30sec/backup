@@ -33,9 +33,10 @@ Empiezo mi scan con Nmap
 | `-sC` | Es equivalente a `--script=default` y ejecuta una serie de scripts de enum contra el target |
 | `-sV` | Proporciona info de los servicios |
  
+ A escanear :)
  
 
-```bash
+```bash Nmap
 Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times will be slower.
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-01 21:10 BST
 Nmap scan report for sharp.htb (10.10.10.219)
@@ -61,7 +62,6 @@ Host script results:
 |   date: 2021-05-01T19:24:05
 |_  start_date: N/A
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 603.90 seconds
 ```
 Acostumbro a empezar por los puertos que me resultan mas familiar :^)
