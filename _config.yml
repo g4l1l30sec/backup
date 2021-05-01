@@ -1,27 +1,25 @@
-title: Klise Theme
+title: G4l1l30
 description: >-
-  He's writing in Bahasa about web technology and experience as a journal  for
-  documentation things that he learned, meet him <a
-  href="https://github.com/piharpi" target="_blank" rel="noopener">@github</a>.
+  Another Writeups/InfoSec Blog <a
+  href="https://github.com/g4l1l30sec" target="_blank" rel="noopener">@github</a>.
 lang: en-US
-timezone: Asia/Jakarta
-image: assets/img/ogp.png
+timezone: America/Santo_Domingo
+image: 
 repo: 'https://github.com/piharpi/jekyll-klise'
 mode: dark
 author:
-  name: Jekyll Klisé
-  bio: >-
-    The minimalist Jekyll theme, light and dark mode support, for running a
-    personal site and blog,  meet Klisé theme at <a
-    href="https://github.com/piharpi/jekyll-klise" target="_blank"
-    rel="noopener">@github</a>.
+  name: G4l1l30
+  bio: |
+    Another Writeups/InfoSec Blog.
+    Tolkiendil :) ;& [blank repo] at <a href="https://github.com/g4l1l30sec" target="_blank" rel="noopener">@github</a>.
+    ctf player at <a href="https://www.hackthebox.eu/profile/321601" target="_blank" rel="noopener">Hack The Box</a>.
   username: username
-  github: github_username
-  twitter: twitter_username
+  github: g4l1l30sec
+  twitter: g4l1l302
   facebook: facebook_username
   email: your-email@email.com
   avatar: /assets/img/avatar.jpg
-url: ''
+url: 'https://g4l1l30sec.github.io/'
 baseurl: ''
 permalink: '/:title/'
 google_analytics: null
