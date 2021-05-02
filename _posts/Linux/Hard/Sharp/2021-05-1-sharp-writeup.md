@@ -100,15 +100,32 @@ Encrypted Password: "Ua3LyPFM175GN8D3+tqwLA=="
 ```
 Despues de estar estancado un rato, el manual del usuario "User Guide.pdf" es nuestro fichero ideal :)
 
+Recien empezar a leer en la pagina 3 encontramos lo siguiente: 
+
+![](/assets/img/Linux/Sharp/kanban_01.png)
+
+Es decir, no es recomendable usar un blank password pero es posible.
+
+
 En la pagina 18 podemos destacar dos cosas importantes: 1. El password del administrador(por defecto) es en blanco y si olvidamos el password, solo movemos el programa (que por cierto, es portable :) ) a otro directorio.
 
 ![](/assets/img/Linux/Sharp/kaban_02.png)
 
-Interesante, indagando en el documento en la pagina 20, nos damos cuenta que los password se ocultan por defecto en `Setup/Users tab`
+Interesante, indagando en el documento en la pagina 20, nos damos cuenta que los password se ocultan por defecto en `Setup/Users tab`.
 
 ![](/assets/img/Linux/Sharp/kaban_03.png)
 
 Necesitamos una VM con Windows, pasamos los archivos de Kanban ya descargados.
+
+#### Analizando el portable de Kanban en nuestro VM Windows.
+
+Una vez descargado y descomprimido los archivos en nuestro VM Windows, ejecutaremos `PortableKanban.exe` e intentaremos loguearnos como Administrator y con el password vacio, el cual nos da un error. 
+
+![](/assets/img/Linux/Sharp/kanban_02.png)
+ 
+Echemos un vistazo a el archivo de conf: `PortableKanban.pk3` (donde encontramos las credenciales alojadas).
+
+
 
 
 
