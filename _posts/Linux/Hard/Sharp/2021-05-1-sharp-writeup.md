@@ -127,7 +127,7 @@ Una vez descargado y descomprimido los archivos en nuestro VM Windows, ejecutare
 
 Hay dos posibles formas de obtener las credenciales : 1. Forzando un password reset; 2. Utilizando un script en Python de ExploitDB.
 
-###### Password Reset
+###### Password Reset - Metodo 1
 
 Echemos un vistazo a el archivo de conf: `PortableKanban.pk3` (donde encontramos las credenciales alojadas), borramos el contenido o valor del password de Admistrator e intentamos loguearnos con el mismo con el password vacio(blank password), nos saldra un aviso de que se usara el backup de pk3 :).
 
@@ -141,7 +141,7 @@ Encontaremos las credenciales de esta forma:
 
 ![](/assets/img/Linux/Sharp/Kanban_05.png)
 
-###### ExploitDB 49409
+###### ExploitDB 49409 - Metodo 2
 
 Descargamos este exploit y simplemente lo ejecutamos
 
