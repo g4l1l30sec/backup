@@ -85,7 +85,7 @@ Muchos ficheros ¿no?, vamos a obtenerlos todo con `smbget` de la siguiente form
 
 Utilizaremos `ack` para buscar strings que sean de nuestro interes (podemos hacer lo mismo con grep), el uso quedaria asi : `ack -i "password"`
 
-![](/assets/img/Linux/Sharp/kaban_01.png)
+![](/assets/img/Linux/Sharp/kanban_01.png)
 
 Nice :), echemos un vistazo a `PortableKanban.pk3` mas detalladamente y encontraremos dos usuarios : Administrator y Lars.
 
