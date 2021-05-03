@@ -157,7 +157,7 @@ Este exploit nos acorta el tiempo para encontrar el password de administrator
 Administrator:G2@$btRSHJYTarg
 lars:G123HHrth234gRG
 ```
-##### Lars como Administrator
+##### Lars como Administrator - Continuacion del metodo 1
 
 Tenemos la siguiente credenciales si solo hacemos el password reset
 
