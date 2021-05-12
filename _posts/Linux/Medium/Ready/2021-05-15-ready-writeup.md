@@ -1,3 +1,15 @@
+---
+description: >-
+  G4l1l30 write-up on the medium-difficulty Linux machine Ready from
+  https://hackthebox.eu
+title: Hack the Box - Ready Writeup
+date: 2021-05-15 15:00:00 -0600
+categories: [Hack the Box, Writeup]
+tags: [htb, hacking, hack the box, redteam, Linux, medium, writeup]     # TAG names should always be lowercase
+show_image_post: true
+image: /assets/img/Ready/InfoCard.png
+---
+
 # Summary
 
 ![](/assets/img/Ready/InfoCard.png)
