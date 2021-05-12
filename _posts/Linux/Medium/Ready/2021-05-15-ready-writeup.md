@@ -1,6 +1,6 @@
 # Summary
 
-![](/assets/img/Linux/Ready/InfoCard.png)
+![](/assets/img/Ready/InfoCard.png)
 
 Ready es una VM Medium de la plataforma HackTheBox recientemente retirada(aquí fecha), para realizar esta Box, necesitaremos explotar un RCE en GitLab 11.4.7, aprovechar el flag **privileged** en Docker para escapar del mismo.
 
