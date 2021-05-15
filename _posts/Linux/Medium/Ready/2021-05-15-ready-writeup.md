@@ -3,7 +3,7 @@ description: >-
   G4l1l30 write-up on the medium-difficulty Linux machine Ready from
   https://hackthebox.eu
 title: Hack the Box - Ready Writeup
-date: 2021-05-13 12:00:00 -0600
+date: 2021-05-15 12:00:00 -0600
 categories: [Hack the Box, Writeup]
 tags: [htb, hacking, hack the box, redteam, Linux, medium, writeup, gitlab RCE, gitlab 11.4.7, docker privileged]     # TAG names should always be lowercase
 show_image_post: true
