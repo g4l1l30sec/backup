@@ -2,7 +2,7 @@
 
 
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\ransomware-wannacry.jpg)
+![](_posts/WannaCry/ransomware-wannacry.jpg)
 
 
 
@@ -36,11 +36,11 @@ La metodologia a usar son los 6 pasos de SANS:
 
 Antes de proceder, vamos a hacer un analisis estatico para verificar indicadores de compromisos, empezaremos usando el comando `strings` y `grep` : 
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\strings.png)
+![](_posts/WannaCry/strings.png)
 
 La unica URL conseguida y es lo que se conoce como **KillSwitch** .El investigador MalwareTech descubrió que los programadores del ransomware lo habían creado para comprobar si una URL sin sentido conducía a una página web activa. Curioso por qué el ransomware buscaría ese dominio, MalwareTech lo registró él mismo. Resulta que esa inversión de $ 10,69 fue suficiente para detener el ransom.Resultó que mientras el dominio no estuviera registrado e inactivo, la consulta no tuvo ningún efecto en la propagación del ransomware. Pero una vez que el ransomware verificó la URL y la encontró activa, se cerró. +Info : [How to Accidentally stop a Global Cyber Attack by MalwareTech](https://www.malwaretech.com/2017/05/how-to-accidentally-stop-a-global-cyber-attacks.html)
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\strings_exe.png)
+![](_posts/WannaCry/strings_exe.png)
 
 Estos indicadores de compromiso de WannaCry le sirve para ejecutar tareas.
 
@@ -52,7 +52,7 @@ Volatility es framework open-source para Incident Response y Malware Analysis. P
 vol.py -f wcry.raw imageinfo
 ```
 
-![vol_01](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_01.png)
+![vol_01](_posts/WannaCry/vol_01.png)
 
 Ahora usaremos el plugin **pslist**  para verificar los procesos, es importante estar familarizado con los procesos nativos del sistema operativo:
 
@@ -60,7 +60,7 @@ Ahora usaremos el plugin **pslist**  para verificar los procesos, es importante 
 vol.py -f wcry.raw pslist
 ```
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_02.png)
+![](_posts/WannaCry/vol_02.png)
 
 **PID 1940** y  **PID 740** ambos procesos se ven completamente extraños, ahora usaremos **psscan** para ver un listado mas completo de los procesos (nos lista los procesos terminados, que seria **PIDD**):
 
@@ -70,15 +70,15 @@ vol.py -f wcry.raw --profile=WinXPSP3x86 psscan
 
 
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_03.png)
+![](_posts/WannaCry/vol_03.png)
 
 **WannaDecryptor** y **tasks*** estan relacionados entre si, eso lo podemos observar por el **PIDD: 1940**, vamos analizar el timeline
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_04.png)
+![](_posts/WannaCry/vol_04.png)
 
 Y ordenamos con **sort**
 
-![](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_05.png)
+![](_posts/WannaCry/vol_05.png)
 
 Podemos hacer una busqueda de inteligencia sobre esos procesos :) , ahora vamos a listar los **directorios** y **librerias** utilizando el plugin ``dlllist`` apuntando al **PID 1940 y 740**
 
@@ -86,11 +86,11 @@ Podemos hacer una busqueda de inteligencia sobre esos procesos :) , ahora vamos 
 vol.py -f wcry.raw --profile=WinXPSP3x86 dlllist -p 1940
 ```
 
-![vol_06](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_06.png)
+![vol_06](_posts/WannaCry/vol_06.png)
 
 Un directorio bastante sospechoso :) 
 
-![vol_07](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_07.png)
+![vol_07](_posts/WannaCry/vol_07.png)
 
 `WannaDecryptor` usa el mismo directorio, tambien podemos observar una las siguientes **dll** :
 
@@ -106,7 +106,7 @@ Ahora verificaremos el plugin **handles** para listar files, registry key, event
 vol.py -f wcry.raw --profile=WinXPSP3x86 handles -p 1940
 ```
 
-![vol_08](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_08.png)
+![vol_08](_posts/WannaCry/vol_08.png)
 
 Observamos lo que se conoce como Mutex; esto sirve para que una vez el host este infectado, de forma preventiva no corre mas de una instancia del malware, en este caso tenemos `MsWinZonesCacheCounterMutexA` (En google obtenemos mucha info del mismo).
 
@@ -116,7 +116,7 @@ Dado de que no encontramos conexiones con los plugins **connections** y **connsc
 bulk_extractor -E net -o pcap/ wcry.raw
 ```
 
-![vol_09](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_09.png)
+![vol_09](_posts/WannaCry/vol_09.png)
 
 Y vamos a obtener unos cuantos IoC:
 
@@ -124,7 +124,7 @@ Y vamos a obtener unos cuantos IoC:
 tshark -T fields -e ip.src -r packets.pcap 
 ```
 
-![vol_10](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\WannaCry\vol_10.png)
+![vol_10](_posts/WannaCry/vol_10.png)
 
 Obtenemos los siguientes IPs :
 
