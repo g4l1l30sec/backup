@@ -1,3 +1,13 @@
+---
+description: >-
+  G4l1l30 Memory Dump Analysis de WannaCry
+title: MemoryDump WannaCry | Parte I
+date: 2021-05-22 15:40:00 -0600
+categories: [Malware Analysis]
+tags: [Volatility, WannaCry, MemoryDump]     # TAG names should always be lowercase
+show_image_post: true
+image: _posts/WannaCry/ransomware-wannacry.jpg
+---
 # Analisis de Memory de WannaCry | Parte I
 
 
