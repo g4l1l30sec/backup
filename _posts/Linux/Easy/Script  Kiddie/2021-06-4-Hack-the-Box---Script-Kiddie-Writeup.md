@@ -14,7 +14,7 @@ image: /assets/img/Linux/ScriptKiddie/InfoCard-ScriptKiddie.png
 
 Script Kiddie es una maquina bastante sencilla, el usuario es pensar un poco fuera de la caja. La parte del root es analizar un script sh, inyectar codigo  para escalar hacia otra cuenta y de ahi con privilegios de sudo obtener una shell de root, esta maquina en si no tiene complejidad.
 
-
+![masscan_01](/assets/img/Linux/ScriptKiddie/Infocard-scriptkiddie.png)
 
 ## Info de la maquina
 
