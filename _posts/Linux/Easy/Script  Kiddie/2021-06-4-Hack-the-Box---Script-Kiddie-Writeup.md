@@ -83,7 +83,7 @@ No se le puede sacar mas provecho.
 
 Encontramos algo interesante, usaremos ese exploit.
 
-![msf01](/assets/img/Linux/Script Kiddie/msf01.png)
+![msf01](/assets/img/Linux/ScriptKiddie/msf01.png)
 
 # User 
 
@@ -151,7 +151,7 @@ Procedemos :
 sudo /opt/metasploit-framework-6.0.9/msfconsole
 ```
 
-![root_02](/assets/img/Linux/Script Kiddie/root_02.png)
+![root_02](/assets/img/Linux/ScriptKiddie/root_02.png)
 
 :) 
 
