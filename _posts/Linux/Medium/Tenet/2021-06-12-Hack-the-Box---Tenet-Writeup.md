@@ -10,7 +10,6 @@ show_image_post: true
 image: /assets/img/Linux/Tenet/InfoCard-ScriptKiddie.png
 ---
 
-# Summary
 
 ![](/assets/img/Linux/Tenet/InfoCard-ScriptKiddie.png)
 
