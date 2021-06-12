@@ -12,7 +12,7 @@ image: /assets/img/Linux/Tenet/InfoCard-ScriptKiddie.png
 
 # Summary
 
-![InfoCard-ScriptKiddie](/assets/img/Linux/Tenet/InfoCard-ScriptKiddie.png)
+![](/assets/img/Linux/Tenet/InfoCard-ScriptKiddie.png)
 
 ## Info de la maquina
 
@@ -36,7 +36,7 @@ Ejecutamos el script : ``sudo python3 masscan_to_nmap.py -i 10.10.10.223``
 
 Masscan identifica dos puertos abiertos: 
 
-![Mass_scan](/assets/img/Linux/Tenet/Tenet\Mass_scan.png)
+![](/assets/img/Linux/Tenet/Mass_scan.png)
 
 Y este es el resultado de nmap:
 
@@ -74,29 +74,29 @@ gobuster dir -w /usr/share/wordlists/dirb/big.txt -u http://tenet.ht
 
 
 
-![wordpress](/assets/img/Linux/Tenet/Tenet\wordpress.png)
+![](/assets/img/Linux/Tenet/wordpress.png)
 
 
 
 Es un sito WordPress sin embargo, no hay nada en este caso que podamos hacer, siguiendo enumerando, en el portal lo unico interesante es un comentario de un post llamado **Migration** :
 
-![migration](/assets/img/Linux/Tenet/Tenet/migration.png)
+![](/assets/img/Linux/Tenet/migration.png)
 
 
 
 Investigando un poco : [php backup file](https://www.programmersought.com/article/29295026083/)  hay dos formas de hacer un backup a los archivos `php` : **~** y **.bak** , en este caso **http://tenet.htb/sator.php** con las extensiones **.bak y ~** no nos ayuda mucho :) sin embargo si usamos la IP de la maquina directamente ----> **http://10.10.10.223/sator.php.bk**  
 
-<img src="/assets/img/Linux/Tenet/Tenet\bak_php.png" alt="bak_php" style="zoom:100%;" />
+![](/assets/img/Linux/Tenet/back_php.png)
 
 Nos descargamos el archivo y procedemos a verificarlo.
 
-![file](/assets/img/Linux/Tenet/Tenet\file.png)
+![](/assets/img/Linux/Tenet/file.png)
 
-![php_code](/assets/img/Linux/Tenet/Tenet/php_code.png)
+![](/assets/img/Linux/Tenet/php_code.png)
 
 uhmm la parte interesante esta aqui : 
 
-![php_des](/assets/img/Linux/Tenet/php_des.png)
+![](/assets/img/Linux/Tenet/php_des.png)
 
 
 
@@ -104,7 +104,7 @@ Se espera un entrada GET de `arepo` luego se busca esto ---> `unserialize($input
 
 Antes de continuar, intentemos ejecutar el script:
 
-![/assets/img/Linux/Tenet/ejecutar_script.png)
+![](/assets/img/Linux/Tenet/ejecutar_script.png)
 
 # PHP Deserialization - Foothold
 
@@ -121,25 +121,25 @@ print urlencode(serialize(new DatabaseExport));
 
 
 
-![seria](C:\Users\robencarnacion\Desktop\Totally not a virus trust me ... i'm a dolphin\Blog\Tenet\seria.png)
+![](/assets/img/Linux/Tenet/seria.png)
 
 Pasamos el payload via curl o directamente en el navegador:
 
-![web](/assets/img/Linux/Tenet/Tenet\web.png)
+![](/assets/img/Linux/Tenet/web.png)
 
 Anteriormente la Database se actualizaba una vez, ahora dos veces :D , para obtener el reverse shell, ponemos en escucha netcat y navegamos por el archivo que acabamos de subir en la ruta `http://10.10.10.223/gali.php`
 
-![foothold](/assets/img/Linux/Tenet/foothold.png)
+![](/assets/img/Linux/Tenet/foothold.png)
 
 Le hacemos un upgrade a la shell : `python3 -c "import pty;pty.spawn('/bin/bash')"`
 
 Listamos el directorio:
 
-![wordpress_01](/assets/img/Linux/Tenet/wordpress_01.png)
+![](/assets/img/Linux/Tenet/wordpress_01.png)
 
 Lo tipico es chequear `wp-config.php` : 
 
-![credenciales_wordpress](/assets/img/Linux/Tenet/credenciales_wordpress.png)
+![](/assets/img/Linux/Tenet/credenciales_wordpress.png)
 
 Tenemos la siguientes credenciales:
 
@@ -149,15 +149,15 @@ neil:Opera2112
 
 Intentamos loguearnos y verificar las DB:
 
-![DB](/assets/img/Linux/Tenet/DB.png)
+![](/assets/img/Linux/Tenet/Tenet/DB.png)
 
 Honestamente no hay nada interesante ahi a excepcion de esto :
 
-![rabbit_hole](/assets/img/Linux/Tenet/rabbit_hole.png)
+![](/assets/img/Linux/Tenet/rabbit_hole.png)
 
 Pero es un rabbit hole, el user protagonist no nos interesa por distintas razones :), asi que intentamos usar las credenciales via `SSH`
 
-![ssh](/assets/img/Linux/Tenet/Tenet\ssh.png)
+![](/assets/img/Linux/Tenet/ssh.png)
 
 Bingo :) 
 
@@ -169,17 +169,17 @@ Ya tenemos nuestras credenciales ssh a nivel de user, ahora vamos a por un prive
 sudo -l 
 ```
 
-![sudo](/assets/img/Linux/Tenet/Tenet/sudo.png)
+![](/assets/img/Linux/Tenet/sudo.png)
 
 El usuario **neil** puede ejecutar el script/archivo **enableSSH.sh** , veamos que tiene:
 
-![enableSSHpng](/assets/img/Linux/Tenet/enableSSHpng.png)
+![](/assets/img/Linux/Tenet/enableSSHpng.png)
 
 La parte interesante es esta :
 
 
 
-![content](/assets/img/Linux/Tenet/content.png)
+![](/assets/img/Linux/Tenet/content.png)
 
 
 
@@ -191,7 +191,7 @@ Usaremos **ssh-keygen** para crear una key ssh:
 ssh-keygen	#El contenido se guarda en .ssh del /home de nuestro usuario.
 ```
 
-![sshKeygen](/assets/img/Linux/Tenet/sshKeygen.png)
+![](/assets/img/Linux/Tenet/sshKeygen.png)
 
 Ahora procederemos a enviar nuestra key a /tmp, como el contenido se borra cada "x" tiempo, lo haremos con un bucle, en este caso necesitaremos 3 terminales
 
@@ -203,7 +203,7 @@ while true; do echo "Tu Key SSH" | tee /tmp/ssh* > /dev/null; done
 
 Basicamente estamos escribiendo **indefinidamente** con el bucle  nuestra key ssh en /tmp(esto es gracia el comando **tee** que toma el resultado del comando anterior).
 
-![exportar_llaves](/assets/img/Linux/Tenet/exportar_llaves.png)
+![](/assets/img/Linux/Tenet/exportar_llaves.png)
 
 En este caso tuve suerte de que se exportara a la primera :D, asi que si falla 2 o 3 veces no te preocupes.
 
@@ -218,7 +218,7 @@ ssh -i id_rsa root@tenet.htb
 
 
 
-![root_01](/assets/img/Linux/Tenet/root_01.png)
+![](/assets/img/Linux/Tenet/root_01.png)
 
 Se puede apreciar que tuve que volver a correr el script, gracias al bucle no fue tarea dificil.
 
