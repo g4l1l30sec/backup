@@ -17,7 +17,11 @@ image: /assets/img/Linux/Tentacle/InfoCard.png
 
 ![Info-Card](/assets/img/Linux/Tentacle/Info-Card.png)
 
-Script Kiddie es una maquina bastante sencilla, el usuario es pensar un poco fuera de la caja. La parte del root es analizar un script sh, inyectar codigo  para escalar hacia otra cuenta y de ahi con privilegios de sudo obtener una shell de root, esta maquina en si no tiene complejidad.
+Tentacle es una VM Linux Hard con un servidor proxy Squid. Utilizando Proxychains nos 
+revela un host que está haciendo uso de un servicio OpenSMTPD vulnerable. El Foothold se puede lograr
+con la explotación de la misma(CVE-2020-7247). Un archivo de configuración de cliente SMTP revela una contraseña que ayuda a generar una
+ticket Kerberos válido. Este ticket se puede utilizar para moverse lateralmente. Finalmente, un cronjob se puede explotar para
+escalar a otro usuario(admin) que tenga privilegios para agregar al usuario root a los principals de Kerberos.
 
 
 
