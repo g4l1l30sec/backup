@@ -8,8 +8,6 @@ categories: [Hack the Box, Writeup]
 tags: [htb, hacking, hack the box, redteam, Linux,pivoting,proxychains,kerberos,ksu,kadmin,kinit,klist,wpad,nginx,OpenSMTPD,crontab,keytab,Environment Misconfiguration,File System Forensics,bash]     # TAG names should always be lowercase
 show_image_post: true
 image:/assets/img/Linux/Tentacle/InfoCard.png
-
-
 ---
 
 
