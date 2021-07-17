@@ -157,7 +157,7 @@ gobuster dir -u http://breadcrumbs.htb/ -w /usr/share/wordlists/SecLists/Discove
 
 Tenemos unos cuantos directorios interesantes:
 
-![DB](/assets/img/Linux/Breadcrumbs/Breadcrumbs/DB.png)
+![DB](/assets/img/Linux/Breadcrumbs/DB.png)
 
 ![includes](/assets/img/Linux/Breadcrumbs/includes.png)
 
@@ -195,9 +195,9 @@ Si miramos atentamente es JWT, asi que podemos crear un token JWT para pretender
 
 ![Token](/assets/img/Linux/Breadcrumbs/Token.png)
 
-```text
-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoicGF1bCJ9fQ.4mJguG8tRd2z_feWJpmr_J3AdMeDPvW7GCK7cW7o0AI
-```
+
+`Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoicGF1bCJ9fQ.4mJguG8tRd2z_feWJpmr_J3AdMeDPvW7GCK7cW7o0AI`
+
 
 Ahora necesitaremos el PHPSESSID, para esto verificaremos la siguiente ruta: 
 
