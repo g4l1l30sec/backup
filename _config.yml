@@ -8,14 +8,14 @@ image:
 repo: 'https://github.com/piharpi/jekyll-klise'
 mode: dark
 author:
-  name: [Robert Encarnación]
+  name: Robert Encarnación
   bio: |
     Another Writeups/InfoSec Blog.
     Tolkiendil :) ;Member of RedTeamRD.
     ctf player at <a href="https://www.hackthebox.eu/profile/321601" target="_blank" rel="noopener">Hack The Box</a>.
   username: username
   github: g4l1l30sec
-twitter: G4l1l302
+  twitter: G4l1l302
   facebook: 0xNoP
   email: g4l1l30sec@pm.me
   avatar: /assets/img/avatar.jpg
