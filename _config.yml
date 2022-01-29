@@ -11,13 +11,13 @@ author:
   name: G4l1l30
   bio: |
     Another Writeups/InfoSec Blog.
-    Tolkiendil :) ;& [blank repo] at <a href="https://github.com/g4l1l30sec" target="_blank" rel="noopener">@github</a>.
+    Tolkiendil :) ;Member of RedTeamRD.
     ctf player at <a href="https://www.hackthebox.eu/profile/321601" target="_blank" rel="noopener">Hack The Box</a>.
   username: username
   github: g4l1l30sec
-  twitter: https://twitter.com/G4l1l302
+twitter: G4l1l302
   facebook: 0xNoP
-  email: your-email@email.com
+  email: g4l1l30sec@pm.me
   avatar: /assets/img/avatar.jpg
 url: 'https://g4l1l30sec.github.io/'
 baseurl: ''
