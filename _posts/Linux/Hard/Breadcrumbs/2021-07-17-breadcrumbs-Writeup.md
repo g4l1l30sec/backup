@@ -2,7 +2,7 @@
 description: >-
   G4l1l30 write-up on the hard-difficulty Linux machine Breadcrumbs from
   https://hackthebox.eu
-title: Hack the Box - Breadcrumbs Writeup
+title: Hack the Box - Breadcrumb Writeup
 date: 2021-07-17 10:40:00 -0600
 categories: [Hack the Box, Writeup]
 tags: [htb, hacking, hack the box, redteam, Windows,LFI,bypass file upload, sqlmap dump, port fordwarding, sqli, sqlmap, analyse binary,sqlite leak, jwt token, phpssesid ]     # TAG names should always be lowercase
