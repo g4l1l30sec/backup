@@ -1,5 +1,5 @@
 ---
-title: G4l1l30 On Security
+title: | G4l1l30 On Security
 permalink: /about/
 layout: page
 excerpt: G4l1l30
